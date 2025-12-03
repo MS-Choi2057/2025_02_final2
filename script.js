@@ -27,13 +27,14 @@ function initIntro() {
 const dialogueData = [
     "어서 오십시오, 길을 잃은 어린 양이여.",
     "그대의 혀는... 오랫동안 거짓된 맛에 속아왔군요.",
-    "이제 그대는 진실된 맛, 성스러운 파인애플 피자의 길로 인도될 것입니다.",
+    "이제 그대는 파인애플 피자를 통해 진정한 맛의 길로 인도될 것입니다.",
     "자, 이제 그대의 의지를 보여주십시오.",
     "저 역겨운 우상들을 그대의 손으로 직접 파괴하십시오!"
 ];
+// [복구됨] 동정심 유발 메시지
 const pleaMessages = [
-    "살려주세요!", "저도 맛있다구요!", 
-    "따뜻한 과일은 과일이 아니다!", "한 번만 봐주세요!", "으악!", "파인애플만 피자냐!"
+    "살려주세요!", "저도 맛있다구요!",
+    "뜨거운 과일 타도하라!", "한 번만 봐주세요!", "으악!", "파인애플만 피자냐!"
 ];
 
 let currentDialogueIndex = 0, isTyping = false, typingTimeout;
@@ -42,15 +43,36 @@ function initStage1() {
     document.getElementById('idol-destruction-interface').style.display = 'none';
     document.getElementById('vn-layer').style.display = 'block';
     document.getElementById('stage-1').classList.add('vn-stage');
+    
     startDialogue();
+    initLeaderHover(); // [복구됨] 상태창 활성화
+}
+
+// [복구됨] 교주 상태창 이벤트
+function initLeaderHover() {
+    const charEl = document.getElementById('vn-character');
+    const statusEl = document.getElementById('leader-status');
+    
+    charEl.addEventListener('mouseenter', () => {
+        statusEl.style.display = 'block';
+        statusEl.classList.add('fade-in-status');
+    });
+    
+    charEl.addEventListener('mouseleave', () => {
+        statusEl.style.display = 'none';
+        statusEl.classList.remove('fade-in-status');
+    });
 }
 
 function startDialogue() {
     currentDialogueIndex = 0;
     showNextDialogue();
-    document.getElementById('vn-layer').onclick = () => {
-        if (isTyping) completeTyping();
-        else showNextDialogue();
+    document.getElementById('vn-layer').onclick = (e) => {
+        // [수정] 대화창이나 레이어를 클릭했을 때만 넘어가도록
+        if (e.target.id === 'vn-layer' || e.target.closest('#vn-dialogue-box')) {
+            if (isTyping) completeTyping();
+            else showNextDialogue();
+        }
     };
 }
 
@@ -99,6 +121,7 @@ function endDialogue() {
     initIdolDestruction();
 }
 
+// 우상 파괴 로직
 function initIdolDestruction() {
     const idols = document.querySelectorAll('.idol-wrapper');
     const nextBtn = document.getElementById('btn-to-stage-2');
@@ -110,6 +133,7 @@ function initIdolDestruction() {
         const newIdol = idol.cloneNode(true);
         idol.parentNode.replaceChild(newIdol, idol);
         
+        // [복구됨] 말풍선 이벤트
         newIdol.addEventListener('mouseenter', () => {
             if (!newIdol.classList.contains('destroyed')) {
                 const msg = pleaMessages[Math.floor(Math.random() * pleaMessages.length)];
@@ -153,7 +177,7 @@ function initIdolDestruction() {
 let currentTemp = 0;
 const MAX_TEMP = 400;
 let decayRate = 0.3; 
-let increaseAmount = 20; 
+let increaseAmount = 30; 
 
 function initStage2() {
     currentTemp = 0;
@@ -204,14 +228,14 @@ function ovenClear() {
 }
 
 // --- 3단계: 피자 수호 ---
-let pineapplesPlaced = 0, enemies = [], spawnRate = 40, frameCount = 0, timeLeft = 15;
+let pineapplesPlaced = 0, enemies = [], spawnRate = 40, frameCount = 0, timeLeft = 15; // was 60
 const MAX_TIME = 15;
 let mouseX = 0, mouseY = 0;
 
 function initStage3() {
     pineapplesPlaced = 0;
     enemies = [];
-    spawnRate = 40;
+    spawnRate = 60;
     frameCount = 0;
     timeLeft = 15;
     
@@ -325,26 +349,26 @@ class MintChoco {
         else{this.x=-300;this.y=Math.random()*window.innerHeight;}
         
         this.size = 180; 
-        this.speed = Math.random() * 5 + 3; 
+        this.speed = Math.random() * 2 + 1.5; 
         this.vx = 0; this.vy = 0; 
-        this.isRepelled = false; // 튕겨남 상태 플래그
+        this.isRepelled = false; 
     }
 
     update() {
+        // 제거 플래그가 없으므로 로직 단순화
+        
         const pCx = window.innerWidth / 2; const pCy = window.innerHeight / 2;
         const myCx = this.x + this.size / 2; const myCy = this.y + this.size / 2;
         const distToPizza = Math.sqrt((pCx-myCx)**2 + (pCy-myCy)**2);
         const distToMouse = Math.sqrt((myCx-mouseX)**2 + (myCy-mouseY)**2);
         const shieldRadius = (this.size / 2) + 50;
 
-        // [수정됨] 쉴드 충돌 시 강하게 튕겨나감 (소멸 X)
         if (distToMouse < shieldRadius) {
             this.isRepelled = true;
-            this.vx = ((myCx - mouseX) / distToMouse) * 30; // 30의 속도로 튕김
+            this.vx = ((myCx - mouseX) / distToMouse) * 30; // 튕겨나감
             this.vy = ((myCy - mouseY) / distToMouse) * 30;
         }
 
-        // 일반 상태일 때만 피자 추적
         if (!this.isRepelled) {
             const angle = Math.atan2(pCy - myCy, pCx - myCx);
             this.vx = Math.cos(angle) * this.speed;
@@ -354,10 +378,7 @@ class MintChoco {
         this.x += this.vx; this.y += this.vy;
         this.el.style.left = this.x + 'px'; this.el.style.top = this.y + 'px';
 
-        // 튕겨나가지 않은 상태에서만 피자 충돌 체크
         if (!this.isRepelled && distToPizza < 120) return 'HIT_PIZZA';
-        
-        // 화면 밖으로 멀리 나가면 제거
         if (this.x < -400 || this.x > window.innerWidth + 400 || this.y < -400 || this.y > window.innerHeight + 400) {
             return 'OUT';
         }
@@ -369,7 +390,7 @@ function gameLoop() {
     frameCount++;
     if (frameCount % Math.floor(spawnRate) === 0) {
         enemies.push(new MintChoco());
-        if (spawnRate > 20) spawnRate -= 0.5; 
+        if (spawnRate > 10) spawnRate -= 1; // was 0.5
     }
     for (let i = enemies.length - 1; i >= 0; i--) {
         const status = enemies[i].update();

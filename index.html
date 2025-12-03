@@ -29,6 +29,22 @@
     <div id="stage-1" class="stage vn-stage">
         <div id="vn-layer">
             <img src="leader.png" alt="교주" id="vn-character">
+            
+            <div id="leader-status">
+                <h3>상태창</h3>
+                <div class="status-content">
+                    <p><span class="label">이름:</span> <span class="value">지쿠화스 하와이안</span></p>
+                    <p><span class="label">직업:</span> <span class="value">단짠의 대사제</span></p>
+                    <p><span class="label">나이:</span> <span class="value">통조림 제조일로부터 3년</span></p>
+                    <p><span class="label">고향:</span> <span class="value">피자스쿨</span></p>
+                    <hr class="status-divider">
+                    <p><span class="label">좋아하는 것:</span> <span class="value">갓 구운 하와이안 피자</span></p>
+                    <p><span class="label">싫어하는 것:</span> <span class="value">하와이안 피자를 제외한 모든 것, 민트초코</span></p>
+                    <p><span class="label">특수 능력:</span> <span class="value">[따뜻한 과즙]</span><br>
+                    <span class="desc">주변 10m 내의 모든 피자를 따뜻하게 유지한다.</span></p>
+                </div>
+            </div>
+
             <div id="vn-dialogue-box">
                 <div id="vn-name-tag">🍍 황금 혀의 교주</div>
                 <p id="vn-text"></p>
@@ -38,7 +54,7 @@
 
         <div id="idol-destruction-interface" style="display: none;">
             <h1>참회의 방</h1>
-            <h2>당신을 현혹하던 거짓된 맛의 피자들을 파괴하십시오.</h2>
+            <h2>거짓된 이단의 피자들을 제거하세요</h2>
             <div class="idol-container">
                 <div class="idol-wrapper" id="idol-1" data-name="페퍼로니">
                     <img src="pepperoni.png" alt="페퍼로니" class="idol-img">
@@ -54,12 +70,12 @@
                 </div>
             </div>
             <p id="idol-feedback" class="feedback"></p>
-            <button id="btn-to-stage-2" class="next-btn" disabled>정화를 시작한다</button>
+            <button id="btn-to-stage-2" class="next-btn" disabled>다음으로</button>
         </div>
     </div>
 
     <div id="stage-2" class="stage game-stage">
-        <h2>스페이스바를 연타하여<br>온도를 400℃까지 높이세요!</h2>
+        <h2>스페이스바를 연타하여<br>온도를 높여 피자를 완성하세요!</h2>
         
         <div class="oven-visual">
             <div class="pizza-in-oven"></div>
