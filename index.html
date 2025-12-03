@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>황금 파인애플 교단</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <img src="pizza-angel.png" alt="천사" class="flying-character">
+    <img src="pizza-angel.png" alt="천사" class="flying-character">
+    <img src="pizza-angel.png" alt="천사" class="flying-character">
+
+    <div id="pizza-transition">
+        <img src="pizza1.png" alt="피자">
+    </div>
+
+    <div id="cursor-tooltip">살려주세요...</div>
+
+    <div id="intro" class="stage active">
+        <div class="logo-area">🍍</div>
+        <h1>황금 파인애플 교단</h1>
+        <h2>단짠의 진리를 찾아서</h2>
+        <p>위대한 오븐의 열기 속에서<br>거짓된 편견을 태우고 구원에 이르십시오.</p>
+        <button id="btn-start-ritual" class="next-btn">입단 의식 시작하기</button>
+    </div>
+
+    <div id="stage-1" class="stage vn-stage">
+        <div id="vn-layer">
+            <img src="leader.png" alt="교주" id="vn-character">
+            <div id="vn-dialogue-box">
+                <div id="vn-name-tag">🍍 황금 혀의 교주</div>
+                <p id="vn-text"></p>
+                <div class="next-indicator">▼</div>
+            </div>
+        </div>
+
+        <div id="idol-destruction-interface" style="display: none;">
+            <h1>참회의 방</h1>
+            <h2>당신을 현혹하던 거짓된 맛의 피자들을 파괴하십시오.</h2>
+            <div class="idol-container">
+                <div class="idol-wrapper" id="idol-1" data-name="페퍼로니">
+                    <img src="pepperoni.png" alt="페퍼로니" class="idol-img">
+                    <div class="idol-crack"></div>
+                </div>
+                <div class="idol-wrapper" id="idol-2" data-name="콤비네이션">
+                    <img src="combination.png" alt="콤비네이션" class="idol-img">
+                    <div class="idol-crack"></div>
+                </div>
+                <div class="idol-wrapper" id="idol-3" data-name="치즈">
+                    <img src="cheese.png" alt="치즈" class="idol-img">
+                    <div class="idol-crack"></div>
+                </div>
+            </div>
+            <p id="idol-feedback" class="feedback"></p>
+            <button id="btn-to-stage-2" class="next-btn" disabled>정화를 시작한다</button>
+        </div>
+    </div>
+
+    <div id="stage-2" class="stage game-stage">
+        <h2>스페이스바를 연타하여<br>온도를 400℃까지 높이세요!</h2>
+        
+        <div class="oven-visual">
+            <div class="pizza-in-oven"></div>
+            <div class="fire-overlay"></div>
+        </div>
+
+        <div class="thermometer-container">
+            <div class="thermometer-bar" id="temp-bar"></div>
+        </div>
+        <div class="temp-text">현재 온도: <span id="temp-display">0</span>℃ / 400℃</div>
+    </div>
+
+    <div id="stage-3" class="stage game-stage">
+        <div id="time-bar-container"><div id="time-bar"></div></div>
+        <h2 id="game-title">성스러운 파인애플 5조각을<br>점선 위에 안착시키세요</h2>
+        <div class="timer-display" id="timer">15.00</div>
+        
+        <div class="game-area">
+            <div class="pizza-container" id="pizza-container">
+                <div class="pizza" id="pizza">
+                    <div class="target-zone t1" data-id="1"></div>
+                    <div class="target-zone t2" data-id="2"></div>
+                    <div class="target-zone t3" data-id="3"></div>
+                    <div class="target-zone t4" data-id="4"></div>
+                    <div class="target-zone t5" data-id="5"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ingredient-dock" id="dock">
+            <div class="pineapple" draggable="true" id="p1"></div>
+            <div class="pineapple" draggable="true" id="p2"></div>
+            <div class="pineapple" draggable="true" id="p3"></div>
+            <div class="pineapple" draggable="true" id="p4"></div>
+            <div class="pineapple" draggable="true" id="p5"></div>
+        </div>
+        <div class="cursor-shield" id="shield"></div>
+    </div>
+
+    <div class="end-screen" id="game-over">
+        <h1>실패...</h1>
+        <p>피자가 민트초코에 오염되었습니다.</p>
+        <button id="btn-retry">다시 도전하기</button>
+    </div>
+
+    <div class="end-screen" id="victory-screen">
+        <h1>축하합니다!</h1>
+        <p>완벽한 하와이안 피자를 지켜냈습니다.</p>
+        <div id="rebirth-area">
+            <p>당신에게 새로운 이름을 하사합니다.</p>
+            <h2 id="new-cult-name" style="color:#FFD700; margin:20px 0;">...</h2>
+        </div>
+        <div class="action-buttons">
+            <button id="btn-download">🍕 성스러운 피자 받기</button>
+            <button id="btn-share">🔗 교단 링크 전파하기</button>
+        </div>
+        <button id="btn-restart-game" class="secondary-btn">처음으로 돌아가기</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
